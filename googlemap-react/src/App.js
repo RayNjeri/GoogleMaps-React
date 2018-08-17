@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 
-const style = {
-  width: '50vw',
-  height: '75vh',
-  marginLeft: 'auto',
-  marginRight: 'auto'
-};
+import MapComponent from './Map';
+
+// const style = {
+//   width: '50vw',
+//   height: '75vh',
+//   marginLeft: 'auto',
+//   marginRight: 'auto'
+// };
 
 export class MapContainer extends Component {
   state = { showingInfoWindow: false, activeMarker: {}, selectedPlace: {} };
@@ -29,12 +30,11 @@ export class MapContainer extends Component {
   };
 
   render() {
+    if (!this.props.loaded) return <div>Loading...</div>;
     return (
-      <Map
+      <MapComponent
+        centerAroundCurrentLocation
         google={this.props.google}
-        zoom={14}
-        style={style}
-        initialCenter={{ lat: -1.2884, lng: 36.8233 }}
         onClick={this.onMapClicked}
       >
         <Marker
@@ -49,7 +49,7 @@ export class MapContainer extends Component {
             <h4>{this.state.selectedPlace.name}</h4>
           </div>
         </InfoWindow>
-      </Map>
+      </MapComponent>
     );
   }
 }
