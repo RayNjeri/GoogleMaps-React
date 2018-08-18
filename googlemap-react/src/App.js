@@ -3,15 +3,12 @@ import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 
 import MapComponent from './Map';
 
-// const style = {
-//   width: '50vw',
-//   height: '75vh',
-//   marginLeft: 'auto',
-//   marginRight: 'auto'
-// };
-
 export class MapContainer extends Component {
-  state = { showingInfoWindow: false, activeMarker: {}, selectedPlace: {} };
+  state = {
+    showingInfoWindow: false,
+    activeMarker: {},
+    selectedPlace: {}
+  };
 
   onMarkerClick = (props, marker, e) =>
     this.setState({
@@ -37,10 +34,7 @@ export class MapContainer extends Component {
         google={this.props.google}
         onClick={this.onMapClicked}
       >
-        <Marker
-          onClick={this.onMarkerClick}
-          name={'Kenyatta International Convention Centre'}
-        />
+        <Marker onClick={this.onMarkerClick} name={'current location'} />
         <InfoWindow
           marker={this.state.activeMarker}
           visible={this.state.showingInfoWindow}
