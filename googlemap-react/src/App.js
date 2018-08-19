@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 
-import MapComponent from './Map';
+import CurrentLocation from './Map';
 
 export class MapContainer extends Component {
   state = {
@@ -27,9 +27,8 @@ export class MapContainer extends Component {
   };
 
   render() {
-    if (!this.props.loaded) return <div>Loading...</div>;
     return (
-      <MapComponent
+      <CurrentLocation
         centerAroundCurrentLocation
         google={this.props.google}
         onClick={this.onMapClicked}
@@ -43,7 +42,7 @@ export class MapContainer extends Component {
             <h4>{this.state.selectedPlace.name}</h4>
           </div>
         </InfoWindow>
-      </MapComponent>
+      </CurrentLocation>
     );
   }
 }

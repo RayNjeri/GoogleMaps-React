@@ -2,20 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 const mapStyles = {
-  container: {
+  map: {
     position: 'absolute',
     width: '100%',
     height: '100%'
-  },
-  map: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    top: 0
   }
 };
-export class MapComponent extends React.Component {
+export class CurrentLocation extends React.Component {
   constructor(props) {
     super(props);
 
@@ -55,14 +48,16 @@ export class MapComponent extends React.Component {
 
   loadMap() {
     if (this.props && this.props.google) {
-      // google is available
+      // checks if google is available
       const { google } = this.props;
       const maps = google.maps;
 
       const mapRef = this.refs.map;
+
+      // reference to the actual DOM element
       const node = ReactDOM.findDOMNode(mapRef);
 
-      let { currentLocation, zoom } = this.props;
+      let { zoom } = this.props;
       const { lat, lng } = this.state.currentLocation;
       const center = new maps.LatLng(lat, lng);
       const mapConfig = Object.assign(
@@ -72,19 +67,20 @@ export class MapComponent extends React.Component {
           zoom: zoom
         }
       );
+      // maps.Map() is constructor that instantiates the map
       this.map = new maps.Map(node, mapConfig);
     }
   }
 
   recenterMap() {
     const map = this.map;
-    const curr = this.state.currentLocation;
+    const current = this.state.currentLocation;
 
     const google = this.props.google;
     const maps = google.maps;
 
     if (map) {
-      let center = new maps.LatLng(curr.lat, curr.lng);
+      let center = new maps.LatLng(current.lat, current.lng);
       map.panTo(center);
     }
   }
@@ -105,18 +101,10 @@ export class MapComponent extends React.Component {
   }
 
   render() {
-    const style = Object.assign({}, mapStyles.map, this.props.style, {
-      display: this.props.visible ? 'inherit' : 'none'
-    });
-
-    const containerStyles = Object.assign(
-      {},
-      mapStyles.container,
-      this.props.containerStyle
-    );
+    const style = Object.assign({}, mapStyles.map);
 
     return (
-      <div style={containerStyles} className={this.props.className}>
+      <div>
         <div style={style} ref="map">
           Loading map...
         </div>
@@ -125,17 +113,14 @@ export class MapComponent extends React.Component {
     );
   }
 }
-export default MapComponent;
+export default CurrentLocation;
 
-MapComponent.defaultProps = {
+CurrentLocation.defaultProps = {
   zoom: 14,
   initialCenter: {
     lat: -1.2884,
     lng: 36.8233
   },
-  center: {},
   centerAroundCurrentLocation: false,
-  style: {},
-  containerStyle: {},
   visible: true
 };
