@@ -17,7 +17,7 @@ export class MapContainer extends Component {
       showingInfoWindow: true
     });
 
-  onMapClicked = props => {
+  onClose = props => {
     if (this.state.showingInfoWindow) {
       this.setState({
         showingInfoWindow: false,
@@ -37,6 +37,7 @@ export class MapContainer extends Component {
         <InfoWindow
           marker={this.state.activeMarker}
           visible={this.state.showingInfoWindow}
+          onClose={this.onClose}
         >
           <div>
             <h4>{this.state.selectedPlace.name}</h4>
